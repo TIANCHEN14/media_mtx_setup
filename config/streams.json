@@ -1,0 +1,12 @@
+[
+  {
+    "stream_id": "camera01",
+    "display_name": "RTSP Test Camera",
+    "event_id": "local-test",
+    "source_type": "rtsp",
+    "mediamtx_path": "camera01",
+    "primary_protocol": "webrtc",
+    "fallback_protocol": "hls",
+    "latency_target_ms": 1000
+  }
+]

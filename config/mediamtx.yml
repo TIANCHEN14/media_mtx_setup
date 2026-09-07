@@ -1,0 +1,38 @@
+logLevel: info
+
+# Keep administrative endpoints private to the Pi. The gateway reads the API.
+api: true
+apiAddress: 127.0.0.1:9997
+
+metrics: true
+metricsAddress: 127.0.0.1:9998
+
+rtsp: true
+rtspAddress: :8554
+rtspTransports: [tcp, udp]
+
+rtmp: false
+
+hls: true
+hlsAddress: :8888
+hlsVariant: lowLatency
+hlsPartDuration: 500ms
+hlsAllowOrigins: ["*"]
+
+webrtc: true
+webrtcAddress: :8889
+webrtcLocalUDPAddress: :8189
+webrtcAllowOrigins: ["*"]
+
+# This lab consumes RTSP. SRT can be enabled when an SRT publisher is added.
+srt: false
+
+# Keep the learning setup focused on HLS, WebRTC, and RTSP.
+moq: false
+
+paths:
+  camera01:
+    # scripts/run-mediamtx.sh overrides this from config/local.env.
+    source: publisher
+    rtspTransport: tcp
+    sourceOnDemand: false

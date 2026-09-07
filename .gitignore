@@ -1,0 +1,10 @@
+.venv/
+.runtime/
+bin/
+*.log
+__pycache__/
+*.py[cod]
+.pytest_cache/
+config/local.env
+auto.crt
+auto.key

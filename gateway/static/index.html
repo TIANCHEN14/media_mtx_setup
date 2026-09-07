@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Local Video Gateway</title>
+  <style>
+    :root { color-scheme: dark; font-family: system-ui, sans-serif; }
+    body { max-width: 1100px; margin: 0 auto; padding: 2rem; background: #101318; color: #edf2f7; }
+    header { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+    select, button, a { font: inherit; }
+    select, button { padding: .55rem .8rem; border-radius: .4rem; border: 1px solid #556070; background: #202630; color: inherit; }
+    button { cursor: pointer; }
+    .status { padding: .3rem .65rem; border-radius: 999px; background: #5c2830; }
+    .status.online { background: #17603a; }
+    iframe { display: block; width: 100%; aspect-ratio: 16 / 9; border: 1px solid #3a4350; border-radius: .6rem; background: #000; margin-top: 1rem; }
+    .links { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 1rem; }
+    a { color: #8cc8ff; }
+    pre { overflow: auto; background: #171c24; padding: 1rem; border-radius: .5rem; }
+  </style>
+</head>
+<body>
+  <h1>Local Video Gateway</h1>
+  <header>
+    <select id="stream"></select>
+    <span id="status" class="status">loading</span>
+    <button id="webrtc">WebRTC (low latency)</button>
+    <button id="hls">HLS (compatible)</button>
+  </header>
+  <iframe id="player" allow="autoplay; fullscreen; picture-in-picture"></iframe>
+  <div class="links">
+    <a href="/docs" target="_blank">Gateway API documentation</a>
+    <a id="direct" target="_blank">Open player directly</a>
+  </div>
+  <pre id="details"></pre>
+  <script>
+    const selector = document.querySelector('#stream');
+    const status = document.querySelector('#status');
+    const player = document.querySelector('#player');
+    const details = document.querySelector('#details');
+    const direct = document.querySelector('#direct');
+    let streams = [];
+
+    function current() { return streams.find(item => item.stream_id === selector.value); }
+    function play(kind) {
+      const stream = current();
+      if (!stream) return;
+      const url = kind === 'webrtc' ? stream.protocols.webrtc : stream.protocols.hls_player;
+      player.src = url;
+      direct.href = url;
+      direct.textContent = `Open ${kind.toUpperCase()} player directly`;
+    }
+    async function refresh() {
+      streams = await fetch('/streams').then(response => response.json());
+      const selected = selector.value;
+      selector.replaceChildren(...streams.map(item => {
+        const option = document.createElement('option');
+        option.value = item.stream_id;
+        option.textContent = item.display_name;
+        return option;
+      }));
+      if (streams.some(item => item.stream_id === selected)) selector.value = selected;
+      const stream = current();
+      if (!stream) return;
+      status.textContent = stream.status;
+      status.className = `status ${stream.status}`;
+      details.textContent = JSON.stringify(stream, null, 2);
+    }
+    document.querySelector('#webrtc').addEventListener('click', () => play('webrtc'));
+    document.querySelector('#hls').addEventListener('click', () => play('hls'));
+    selector.addEventListener('change', () => { refresh(); play('webrtc'); });
+    refresh().then(() => play('webrtc'));
+    setInterval(refresh, 5000);
+  </script>
+</body>
+</html>
