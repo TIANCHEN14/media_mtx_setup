@@ -1,5 +1,7 @@
 # Local MediaMTX Video Gateway Operations
 
+For a complete FFmpeg walkthrough, see [Adding an SRT Stream to the Local MediaMTX Broker](ADDING_SRT_STREAM.md).
+
 ## A. How to interface with MediaMTX
 
 MediaMTX has separate interfaces for media and administration. Replace `PI_IP` with the Raspberry Pi's LAN address.

@@ -32,4 +32,7 @@ curl http://127.0.0.1:8000/streams
 curl http://127.0.0.1:8000/streams/camera01/health
 ```
 
-Detailed operating and integration instructions are in [`docs/OPERATIONS.md`](docs/OPERATIONS.md).
+Documentation:
+
+- [`docs/OPERATIONS.md`](docs/OPERATIONS.md) covers setup, MediaMTX interfaces, source integration, and LAN access.
+- [`docs/ADDING_SRT_STREAM.md`](docs/ADDING_SRT_STREAM.md) is the step-by-step guide for publishing or relaying SRT with FFmpeg.
