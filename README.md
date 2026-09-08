@@ -36,3 +36,4 @@ Documentation:
 
 - [`docs/OPERATIONS.md`](docs/OPERATIONS.md) covers setup, MediaMTX interfaces, source integration, and LAN access.
 - [`docs/ADDING_SRT_STREAM.md`](docs/ADDING_SRT_STREAM.md) is the step-by-step guide for publishing or relaying SRT with FFmpeg.
+- [`docs/S3_RECORDING_ARCHIVE.md`](docs/S3_RECORDING_ARCHIVE.md) covers local VCR recording, S3-compatible archiving, retention, and archived playback.
